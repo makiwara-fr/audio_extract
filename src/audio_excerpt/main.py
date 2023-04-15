@@ -121,7 +121,7 @@ def main():
     print("-------------")
 
     # list of parameters
-    default_params = {"input_dir": ".", "output_dir": ".", "first_second": 0, "last_second": 60, "input_file_extension" : ["wav","mp3"]}
+    default_params = {"input_dir": ".", "output_dir": "output", "first_second": 0, "last_second": 60, "input_file_extension" : ["wav","mp3"]}
 
     # Open the file and load the file
     try:
@@ -170,6 +170,13 @@ def main():
     # --------------------------
     status = 0
     error_files = []
+
+
+    # check if output directory exists. Otherwise create it
+    # -----------------------------------------------------
+    if not Path(params['output_dir']).exists():
+        print("Output directory doesn't exist. Creating it")
+        Path(params['output_dir']).mkdir(parents=True, exist_ok=True)
 
     # real processing of files
     # -------------------------
