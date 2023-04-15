@@ -24,10 +24,9 @@ import sys
 import re
 import os
 from pathlib import Path
-import argparse
 import yaml
 from yaml.loader import SafeLoader
-import ffmpeg
+
 
 
 
@@ -54,17 +53,18 @@ def scan_folder(wd, regexp):
     # Scanning folder
     print(f"Scanning folder : {wd}")
     
+    if wd == ".":
+        wd = os.getcwd()
+
     # scanning all the files  #for entry in os.scandir(wd):
     for entry in Path(wd).iterdir():
         if entry.is_file():
-			# recognize if videos
+			# recognize if audio
             if regexp.search(entry.name):
 				#print(entry.name)
                 files_list.append(entry)
-        elif entry.is_dir():
-            files_list += scan_folder(entry.path, regexp)
         else:
-			#need to work on recursive folders structure
+			# don't go into subdirectories
             pass
 	
     return files_list
@@ -88,16 +88,16 @@ def extract(file, output_dir, beg, end):
         command = f"ffmpeg -i \"{infile}\" -ss {beg} -to {end}  -af \"afade=t=out:st={end-5}:d=5\" {reencode} -y \"{outfile}\""
 
         #command = f"ffmpeg -i \"{infile}\" -ss {beg} -to {end}  -af \"afade=t=out:st={end-5}:d=5\" -c copy -y \"{outfile}\""
-        #print(command)
+        
         status = os.system(command)
         return status
-        #return 0
+    
     except Exception as e:
         print(e)
         return 1
 
     
-    return res
+  
 
 
 
@@ -120,19 +120,27 @@ def main():
     print("Audio excerpt")
     print("-------------")
 
+    # list of parameters
+    default_params = {"input_dir": ".", "output_dir": ".", "first_second": 0, "last_second": 60, "input_file_extension" : ["wav","mp3"]}
+
     # Open the file and load the file
+    try:
+        with open("parameters.yaml") as f:
+            params = yaml.load(f, Loader=SafeLoader)
+    except:
+        # not file found
+        params = {}
     
-    with open("parameters.yaml") as f:
-        params = yaml.load(f, Loader=SafeLoader)
-        
+    
 
     # check quality 
-    if not params['input_dir']:
-        params['input_dir'] = "."
-    if not params['output_dir']:
-        params['output_dir'] = "."
+    for k,v in default_params.items():
+        if k not in params:
+            params[k] = default_params[k]
+   
 
-    #print(params)
+
+  
 
 
 
@@ -142,15 +150,16 @@ def main():
     print(f"Working directory is {Path.cwd()}")
 
     regex = set_regexp(params['input_file_extension']) #list of extension to look for in directory
-    print(regex)
+    #print(regex)
     files_list = scan_folder(params['input_dir'], regex) #scanning the input directory
     if len(files_list)>0:
         print(f"found {len(files_list)} files" )
         print()
     else:
-        sys.exit(0)
-        print("exiting")
-        print("")       
+        
+        print("exiting no file has been found")
+        print("")
+        sys.exit(0)       
 
     end = params['last_second']
     beg = params['first_second']

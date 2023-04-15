@@ -7,4 +7,4 @@
 
 * ffmpeg
 * python install
-* execute git clone -
+* pip install audio_excerpt

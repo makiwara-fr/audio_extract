@@ -4,11 +4,11 @@ build-backend = "hatchling.build"
 
 [project]
 name = "audio_excerpt"
-version = "0.0.0"
+version = "0.2.0"
 authors = [
   { name="makiwara-fr", email="" },
 ]
-description = "A quick photo & video sorting solution"
+description = "A mass treatment script for extracting part of audio files using FFMPEG"
 readme = "README.md"
 requires-python = ">=3.7"
 classifiers = [
@@ -17,12 +17,6 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 
-dependencies = [
-  os, 
-  pathlib,
-  re,
-  yaml
-]
 
 [project.scripts]
 audio_excerpt = "audio_excerpt.main:main"
