@@ -62,3 +62,6 @@ default is: 60
 A list of file extension you want to consider 
 
 default is: [mp3, wav]
+
+### path [optional]
+directory where is located FFMPEG if no in PATH. Should end with ... ffmpeg/bin

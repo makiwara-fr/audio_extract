@@ -69,11 +69,13 @@ def scan_folder(wd, regexp):
 	
     return files_list
 	
-def extract(file, output_dir, beg, end):
+def extract(file, output_dir, beg, end, ffmpeg_path):
     """ extract except from given file and put results in output dir taking audio only for beg to end """
     infile = Path.cwd().joinpath(file)
     print(infile)
     outfile = Path.cwd().joinpath(output_dir, file.stem + '_extract.mp3')
+
+    
 
     try:
         
@@ -85,9 +87,9 @@ def extract(file, output_dir, beg, end):
         else:
             reencode =""
 
-        command = f"ffmpeg -i \"{infile}\" -ss {beg} -to {end}  -af \"afade=t=out:st={end-5}:d=5\" {reencode} -y \"{outfile}\""
-
-        #command = f"ffmpeg -i \"{infile}\" -ss {beg} -to {end}  -af \"afade=t=out:st={end-5}:d=5\" -c copy -y \"{outfile}\""
+        #command = f"ffmpeg -i \"{infile}\" -ss {beg} -to {end}  -af \"afade=t=out:st={end-5}:d=5\" {reencode} -y \"{outfile}\""
+        command = f"{ffmpeg_path} -i \"{infile}\" -ss {beg} -to {end}  -af \"afade=t=out:st={end-5}:d=5\" {reencode} -y \"{outfile}\""
+        
         
         status = os.system(command)
         return status
@@ -121,7 +123,7 @@ def main():
     print("-------------")
 
     # list of parameters
-    default_params = {"input_dir": ".", "output_dir": "output", "first_second": 0, "last_second": 60, "input_file_extension" : ["wav","mp3"]}
+    default_params = {"input_dir": ".", "output_dir": "output", "first_second": 0, "last_second": 60, "input_file_extension" : ["wav","mp3"], "path": ""}
 
     # Open the file and load the file
     try:
@@ -178,11 +180,19 @@ def main():
         print("Output directory doesn't exist. Creating it")
         Path(params['output_dir']).mkdir(parents=True, exist_ok=True)
 
+    # path to FFMPEG
+    if len(params['path']) > 0:
+        ffmpeg_path = Path(params['path']).joinpath("ffmpeg")
+    else:
+        ffmpeg_path = "ffmpeg"
+
+    print(f"Path to ffmpeg is :{ffmpeg_path}")
+
     # real processing of files
     # -------------------------
 
     for f in files_list:
-        if extract(f, output_dir, beg, end) == 0:
+        if extract(f, output_dir, beg, end, ffmpeg_path) == 0:
             status += 1
         else:
             error_files.append(f)

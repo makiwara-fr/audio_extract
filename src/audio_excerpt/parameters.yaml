@@ -1,5 +1,6 @@
 input_dir: input
 output_dir: output
 first_second: 0
-last_second: 120
+last_second: 30
 input_file_extension: [mp3, wav]
+path: C:\Users\charl\Downloads\ffmpeg\bin
