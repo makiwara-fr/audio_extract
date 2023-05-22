@@ -154,7 +154,7 @@ def main():
         print(f"Working directory is {Path.cwd()}")
 
     regex = set_regexp(params['input_file_extension']) #list of extension to look for in directory
-    #print(regex)
+    
     files_list = scan_folder(params['input_dir'], regex) #scanning the input directory
     if debug:
         if len(files_list)>0:
@@ -184,6 +184,7 @@ def main():
         Path(params['output_dir']).mkdir(parents=True, exist_ok=True)
 
     # path to FFMPEG
+    # --------------
     if len(params['path_ffmpeg']) > 0:
         ffmpeg_path = Path(params['path']).joinpath("ffmpeg")
     else:
