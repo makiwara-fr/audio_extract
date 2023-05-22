@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "audio_excerpt"
-version = "0.3.0"
+version = "0.3.4"
 authors = [
   { name="makiwara-fr", email="" },
 ]
@@ -16,10 +16,12 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
-
+dependencies = [
+  "pyyaml"
+]
 
 [project.scripts]
-audio_excerpt = "audio_excerpt.main:main"
+audio_extract = "audio_excerpt.main:main"
 
 
 

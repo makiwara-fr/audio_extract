@@ -63,5 +63,8 @@ A list of file extension you want to consider
 
 default is: [mp3, wav]
 
-### path [optional]
-directory where is located FFMPEG if no in PATH. Should end with ... ffmpeg/bin
+### path_ffmpeg [optional]
+directory where is located FFMPEG if not in PATH. Should end with ... ffmpeg/bin
+
+### debug [optional]
+enable debug. Default is true

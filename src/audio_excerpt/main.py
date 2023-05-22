@@ -72,7 +72,8 @@ def scan_folder(wd, regexp):
 def extract(file, output_dir, beg, end, ffmpeg_path):
     """ extract except from given file and put results in output dir taking audio only for beg to end """
     infile = Path.cwd().joinpath(file)
-    print(infile)
+    print(f"Processing {infile}")
+    print()
     outfile = Path.cwd().joinpath(output_dir, file.stem + '_extract.mp3')
 
     
@@ -123,7 +124,7 @@ def main():
     print("-------------")
 
     # list of parameters
-    default_params = {"input_dir": ".", "output_dir": "output", "first_second": 0, "last_second": 60, "input_file_extension" : ["wav","mp3"], "path": ""}
+    default_params = {"input_dir": ".", "output_dir": "output", "first_second": 0, "last_second": 60, "input_file_extension" : ["wav","mp3"], "path_ffmpeg": "", "debug": True}
 
     # Open the file and load the file
     try:
@@ -138,30 +139,32 @@ def main():
     # check quality 
     for k,v in default_params.items():
         if k not in params:
+            print(f"{k} is defaulted")
             params[k] = default_params[k]
    
 
-
+    debug = params["debug"]
   
 
 
 
     # read input files
     # ----------------
-
-    print(f"Working directory is {Path.cwd()}")
+    if debug:
+        print(f"Working directory is {Path.cwd()}")
 
     regex = set_regexp(params['input_file_extension']) #list of extension to look for in directory
     #print(regex)
     files_list = scan_folder(params['input_dir'], regex) #scanning the input directory
-    if len(files_list)>0:
-        print(f"found {len(files_list)} files" )
-        print()
-    else:
-        
-        print("exiting no file has been found")
-        print("")
-        sys.exit(0)       
+    if debug:
+        if len(files_list)>0:
+            print(f"found {len(files_list)} files" )
+            print()
+        else:
+            
+            print("exiting no file has been found")
+            print("")
+            sys.exit(0)       
 
     end = params['last_second']
     beg = params['first_second']
@@ -181,12 +184,14 @@ def main():
         Path(params['output_dir']).mkdir(parents=True, exist_ok=True)
 
     # path to FFMPEG
-    if len(params['path']) > 0:
+    if len(params['path_ffmpeg']) > 0:
         ffmpeg_path = Path(params['path']).joinpath("ffmpeg")
     else:
         ffmpeg_path = "ffmpeg"
 
-    print(f"Path to ffmpeg is :{ffmpeg_path}")
+    if debug:
+        print(f"Path to ffmpeg is : {ffmpeg_path}")
+        print()
 
     # real processing of files
     # -------------------------
