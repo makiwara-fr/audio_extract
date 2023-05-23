@@ -29,7 +29,7 @@ from tkinter import filedialog as fd
 class Gui():
 
     root: Tk
-    output_dir: Path
+    output_folder: Path
     default = {"start":0, "end": 30, "fade":True, "fade_d": 5, "input": Path.cwd().relative_to(Path.cwd())}
 
     def __init__(self):
@@ -38,6 +38,7 @@ class Gui():
 
     def launch_extract(self, debug=True, *args):
         """ launch the process of extraction in backend """
+
         print("Processing")
         variables = ["start", "end", "fade", "fade_d", "input"]   
         
@@ -46,23 +47,31 @@ class Gui():
             # ---------------------------
             # variables should not be empty
             for v in variables:
-                if debug:
-                    print(self.root.getvar(v))
                 try: # check string variables
-                    if len(self.root.getvar(v)) < 1 or root.getvar(v) is None :
+                    if len(self.root.getvar(v)) < 1 or self.root.getvar(v) is None :
                         print(f"{v} is missing")
+                        return 1
                 except:
-                    pass 
+                    pass
 
             # launch backend process
             # ----------------------
-            # processing(start, end, fade_d, input, output)
+            
+            # convert what needs to be convert
+            params = {'start': self.root.getvar("start"), 'end': self.root.getvar("end") , 'input_dir' : Path(self.root.getvar("input")).absolute(), 'output_dir': self.output_folder.absolute()}
+
+            # launch backend convertion
+            main.process(input_params = params)
+            
 
             if debug == True:
                 print("processing done")
+            
+            return 0
 
         except ValueError:
             print("error")
+            return 1
 
 
     def get_folder(self, *args):
@@ -89,20 +98,23 @@ class Gui():
 
 
     def update_output_folder(self, input_folder):
-            if not isinstance(input_folder, Path):
-                input_folder = Path(input_folder)
+        """ update the output according to the input one"""
 
-            try: 
-                self.output_folder = input_folder.absolute().parents[0].joinpath("output/").relative_to(Path.cwd())
-            except:
-                self.output_folder = input_folder.absolute().parents[0].joinpath("output/")
+        if not isinstance(input_folder, Path):
+            input_folder = Path(input_folder)
 
-            # update data layer
-            self.root.setvar("output", value=self.output_folder)
+        try: 
+            self.output_folder = input_folder.absolute().parents[0].joinpath("output/").relative_to(Path.cwd())
+        except:
+            self.output_folder = input_folder.absolute().parents[0].joinpath("output/")
+
+        # update data layer
+        self.root.setvar("output", value=self.output_folder)
 
 
     def switch_control(self, target_widget, debug=True):
         """switch on or off the target widget """ 
+
         if debug:
             print(f"(de)activating {target_widget}")
             # print(target_widget['state'])
@@ -114,6 +126,7 @@ class Gui():
 
     def gui(self):
         """ setup GUI """
+
         # main setup
         self.root = Tk()
         self.root.title("audio extract")

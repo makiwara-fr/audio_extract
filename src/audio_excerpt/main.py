@@ -29,7 +29,6 @@ from yaml.loader import SafeLoader
 
 
 
-
 def set_regexp(suffix_list):
     """ set the regex to look for audio files """
     regexp = ""
