@@ -1,2 +1,7 @@
-src/audio_excerpt/input/*
-src/audio_excerpt/output/*
+src/audio_extract/input/*
+src/audio_audio_extract/output/*
+Lib/
+Scripts/
+bin/
+pyvenv.cfg
+src/pycache/

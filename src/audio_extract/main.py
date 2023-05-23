@@ -79,7 +79,7 @@ def extract(file, output_dir, beg, end, ffmpeg_path):
 
     try:
         
-        #command = f"ffmpeg -i \"{infile}\" -ss {beg} -to {end}  -af \"afade=t=out:st={end-5}:d=5\"  -y \"{outfile}\""
+        
         # reencode if not MP3 file
         if infile.suffix != ".mp3":
             print("not mp3", infile.suffix)
@@ -119,13 +119,13 @@ def process(input_params=None):
     print("")
     print("")
     print("-------------")
-    print("Audio excerpt")
+    print("Audio extract")
     print("-------------")
 
     
-    if input_params is not None: # input parameters are given probably from Gui
+    if input_params != None: # input parameters are given probably from Gui
         params = {}
-        for k,v in input_params:
+        for k,v in input_params.items():
             params[k] = v
 
     else: # Open the config file and load the file
@@ -171,8 +171,10 @@ def process(input_params=None):
 
     end = params['last_second']
     beg = params['first_second']
-    output_dir = params['output_dir'] + "/"
-
+    if not isinstance(params['output_dir'], Path):
+        output_dir = params['output_dir'] + "/"
+    else:
+        output_dir = params['output_dir'] 
     # --------------------------
     # launch ffmpeg on file list
     # --------------------------

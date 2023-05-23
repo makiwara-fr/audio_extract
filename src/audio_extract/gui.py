@@ -19,7 +19,10 @@
 # ######################################################################
 
 
-from audio_excerpt import main
+
+
+#from audio_extract import main
+import main
 from pathlib import Path
 from tkinter import *
 from tkinter import ttk
@@ -59,7 +62,7 @@ class Gui():
             
             # convert what needs to be convert
             params = {'start': self.root.getvar("start"), 'end': self.root.getvar("end") , 'input_dir' : Path(self.root.getvar("input")).absolute(), 'output_dir': self.output_folder.absolute()}
-
+            print(params)
             # launch backend convertion
             main.process(input_params = params)
             
@@ -69,8 +72,8 @@ class Gui():
             
             return 0
 
-        except ValueError:
-            print("error")
+        except ValueError as e:
+            print("Value error", e)
             return 1
 
 
