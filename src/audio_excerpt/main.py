@@ -100,11 +100,11 @@ def extract(file, output_dir, beg, end, ffmpeg_path):
         return 1
 
     
-  
 
 
 
-def main():
+
+def process(input_params=None):
      # Welcome messages
     print("")
     print("")
@@ -123,20 +123,24 @@ def main():
     print("Audio excerpt")
     print("-------------")
 
-    # list of parameters
-    default_params = {"input_dir": ".", "output_dir": "output", "first_second": 0, "last_second": 60, "input_file_extension" : ["wav","mp3"], "path_ffmpeg": "", "debug": True}
-
-    # Open the file and load the file
-    try:
-        with open("parameters.yaml") as f:
-            params = yaml.load(f, Loader=SafeLoader)
-    except:
-        # not file found
+    
+    if input_params is not None: # input parameters are given probably from Gui
         params = {}
-    
-    
+        for k,v in input_params:
+            params[k] = v
 
-    # check quality 
+    else: # Open the config file and load the file
+        try:
+            with open("parameters.yaml") as f:
+                params = yaml.load(f, Loader=SafeLoader)
+        except:
+            # not file found
+            params = {}
+    
+    # list of default parameters
+    default_params = {"input_dir": ".", "output_dir": "output", "first_second": 0, "last_second": 60, "input_file_extension" : ["wav","mp3"], "path_ffmpeg": "", "debug": True}  
+
+    # check quality of parameters
     for k,v in default_params.items():
         if k not in params:
             print(f"{k} is defaulted")
@@ -222,4 +226,4 @@ def main():
     print("")
 
 if __name__ == "__main__":
-    main()
+    process()

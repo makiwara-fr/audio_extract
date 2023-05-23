@@ -23,7 +23,8 @@ dependencies = [
 [project.scripts]
 audio_extract = "audio_excerpt.main:main"
 
-
+[project.gui-scripts]
+audio_extract_gui = "audio_excerpt.gui:main"
 
 
 [project.urls]
