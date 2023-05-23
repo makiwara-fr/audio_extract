@@ -20,3 +20,196 @@
 
 
 from audio_excerpt import main
+from pathlib import Path
+from tkinter import *
+from tkinter import ttk
+from tkinter import font
+from tkinter import filedialog as fd
+
+class Gui():
+
+    root: Tk
+    output_dir: Path
+    default = {"start":0, "end": 30, "fade":True, "fade_d": 5, "input": Path.cwd().relative_to(Path.cwd())}
+
+    def __init__(self):
+        self.gui()
+
+
+    def launch_extract(self, debug=True, *args):
+        """ launch the process of extraction in backend """
+        print("Processing")
+        variables = ["start", "end", "fade", "fade_d", "input"]   
+        
+        try:
+            # checking data input quality.
+            # ---------------------------
+            # variables should not be empty
+            for v in variables:
+                if debug:
+                    print(self.root.getvar(v))
+                try: # check string variables
+                    if len(self.root.getvar(v)) < 1 or root.getvar(v) is None :
+                        print(f"{v} is missing")
+                except:
+                    pass 
+
+            # launch backend process
+            # ----------------------
+            # processing(start, end, fade_d, input, output)
+
+            if debug == True:
+                print("processing done")
+
+        except ValueError:
+            print("error")
+
+
+    def get_folder(self, *args):
+        """ select a folder and put it into input_folder
+            update output part
+         """
+        print("Getting folder info")
+        
+        #filename = fd.askopenfilename()
+        folder = fd.askdirectory()
+        #folder = ""
+        print(folder)
+
+        try:
+            input_folder = Path(folder).relative_to(Path.cwd())
+        except:
+            input_folder = Path(folder)
+
+        self.update_output_folder(input_folder)
+
+        print(f"input: {input_folder}, output: {self.output_folder}")
+
+        self.root.setvar("input", value = input_folder)
+
+
+    def update_output_folder(self, input_folder):
+            if not isinstance(input_folder, Path):
+                input_folder = Path(input_folder)
+
+            try: 
+                self.output_folder = input_folder.absolute().parents[0].joinpath("output/").relative_to(Path.cwd())
+            except:
+                self.output_folder = input_folder.absolute().parents[0].joinpath("output/")
+
+            # update data layer
+            self.root.setvar("output", value=self.output_folder)
+
+
+    def switch_control(self, target_widget, debug=True):
+        """switch on or off the target widget """ 
+        if debug:
+            print(f"(de)activating {target_widget}")
+            # print(target_widget['state'])
+        if target_widget['state'] != "disabled":
+            target_widget.config(state = "disabled")
+        else:
+            target_widget.config(state = "enabled")
+        target_widget.update()
+
+    def gui(self):
+        """ setup GUI """
+        # main setup
+        self.root = Tk()
+        self.root.title("audio extract")
+
+        title_font = font.Font(size=13, weight="bold", name="title")
+        subtitle_font = font.Font(size=11, slant ="italic", name="subtitle")
+        frame = ttk.Frame(self.root)
+        frame.grid(column=0, row=0, sticky=(N, W, E, S))
+
+        # main frame
+        title = ttk.Frame(frame)
+        title.grid(column=0, row=0, columnspan=2, sticky=(N,W), padx=10, pady=10)
+        options = ttk.Frame(frame)
+        options.grid(column=0, row=1, sticky=(N,W), padx=5, pady=5)
+        folders = ttk.Frame(frame)
+        folders.grid(column=1, row=1, sticky=(N,W), padx=5, pady=5)
+        process = ttk.Frame(frame)
+        process.grid(column=1, row=2, sticky=(N,E), padx=5, pady=5)
+
+
+        ## title frame
+        # --------------
+        label_title = ttk.Label(title, text='Audio extract', font=title_font)
+        label_title.grid(column=0, row=0)
+
+
+        #  Options frame
+        #  -----------------
+        options_title = ttk.Label(options, text='Options', font=subtitle_font)
+        options_title.grid(column=0, row = 0, columnspan=3, sticky=(N,W))
+
+        # duration setting
+        start_label = ttk.Label(options, text='Starting second')
+        start_label.grid(column=0, row = 1, sticky=(W))
+        var_start = StringVar(self.root, name="start") 
+        start_second = ttk.Entry(options, textvariable=var_start)
+        start_second.grid(column=1, row=1, columnspan=2)
+        end_label = ttk.Label(options, text='Ending second')
+        end_label.grid(column=0, row=2, sticky=(W), columnspan=2)
+        var_end = StringVar(self.root, name="end") 
+        end_second = ttk.Entry(options, textvariable=var_end)
+        end_second.grid(column=1, row=2, columnspan=2)
+
+        # fade selection
+        fade_label = ttk.Label(options, text='fade out')
+        fade_label.grid(column=0, row=3, sticky=(W))
+        fade_var = BooleanVar(self.root, name="fade") 
+        fade = ttk.Checkbutton(options, variable=fade_var)
+        
+        fade.grid(column=1, row=3, sticky=(W))
+        fade_duration_var = StringVar(self.root, name="fade_d")
+        fade_duration = ttk.Entry(options, textvariable=fade_duration_var)
+        fade_duration.grid(column=2, row=3)
+        fade.bind("<1>", lambda *args: self.switch_control(fade_duration)) # deactivate fade duration when fade is False
+        
+        
+        
+        ## folders frame 
+        # ---------------
+        folders_title = ttk.Label(folders, text='Folders', font=subtitle_font)
+        folders_title.grid(column=0, row=0, columnspan=2, stick=(N,W))
+
+        # input and output folders
+        input_label = ttk.Label(folders, text='Input folder')
+        input_label.grid(column=0, row = 1, sticky=(W))
+        var_input = StringVar(self.root, name="input")
+        input_folder = ttk.Entry(folders, textvariable=var_input, width=50 )
+        input_folder.bind("<1>", lambda *args: self.get_folder(var_input, *args)) # callback on click 
+        input_folder.grid(column=1, row=1)
+        output_label = ttk.Label(folders, text='Output folder')
+        output_label.grid(column=0, row=2, sticky=(W))
+        var_output = StringVar(self.root, name="output")
+        output_folder = ttk.Label(folders, textvariable=var_output, width=50)
+        output_folder.bind("<1>", lambda *args: self.get_folder(var_output, *args)) # callback on click 
+        output_folder.grid(column=1, row=2)
+
+        # process frame
+        #---------------
+        process_button = ttk.Button(process, text="Process", command=lambda: self.launch_extract()  )
+        process_button.grid(column=0, row=0, sticky=(N,E))
+        self.root.bind("<Return>", lambda *args: self.launch_extract())
+
+
+        # set default values
+        # ------------------
+        for k, v in self.default.items():
+            
+            self.root.setvar(k, value = v)
+
+        self.update_output_folder(self.root.getvar("input"))
+
+        # launching the main loop
+        # ------------------------
+        self.root.mainloop()        
+
+
+
+if __name__ == "__main__":
+    Gui()
