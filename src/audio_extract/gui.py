@@ -226,6 +226,9 @@ class Gui():
         self.root.mainloop()        
 
 
+def launch_gui():
+    Gui()
+
 
 if __name__ == "__main__":
-    Gui()
+    launch_gui()
