@@ -36,6 +36,7 @@ class Gui():
     default = {"start":0, "end": 30, "fade":True, "fade_d": 5, "input": Path.cwd().relative_to(Path.cwd())}
 
     def __init__(self):
+        print("launching_gui..")
         self.gui()
 
 
@@ -129,6 +130,7 @@ class Gui():
 
     def gui(self):
         """ setup GUI """
+
 
         # main setup
         self.root = Tk()
@@ -227,7 +229,8 @@ class Gui():
 
 
 def launch_gui():
-    Gui()
+    print("1")
+    gui = Gui()
 
 
 if __name__ == "__main__":

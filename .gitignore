@@ -1,7 +1,10 @@
 src/audio_extract/input/*
-src/audio_audio_extract/output/*
+src/audio_extract/output/*
 Lib/
 Scripts/
 bin/
 pyvenv.cfg
-src/pycache/
+src/audio_extract/__pycache__/*
+*.pyc
+dist/
+build/
