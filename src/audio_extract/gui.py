@@ -29,10 +29,30 @@ from tkinter import ttk
 from tkinter import font
 from tkinter import filedialog as fd
 
+import sys
+from tkinter.scrolledtext import ScrolledText
+
+
+class PrintLogger(object):  # create file like object
+
+    def __init__(self, textbox):  # pass reference to text widget
+        self.textbox = textbox  # keep ref
+
+    def write(self, text):
+        self.textbox.configure(state="normal")  # make field editable
+        self.textbox.insert("end", text)  # write text to textbox
+        self.textbox.see("end")  # scroll to end
+        self.textbox.configure(state="disabled")  # make field readonly
+
+    def flush(self):  # needed for file like object
+        pass
+
+
 class Gui():
 
     root: Tk
     output_folder: Path
+    log_widget: ScrolledText
     default = {"start":0, "end": 30, "fade":True, "fade_d": 5, "input": Path.cwd().relative_to(Path.cwd())}
 
     def __init__(self):
@@ -128,6 +148,14 @@ class Gui():
             target_widget.config(state = "enabled")
         target_widget.update()
 
+
+    def redirect_logging(self):
+        """ get stdout and stderr to UI"""
+
+        logger = PrintLogger(self.log_widget)
+        sys.stdout = logger
+        sys.stderr = logger
+
     def gui(self):
         """ setup GUI """
 
@@ -150,7 +178,8 @@ class Gui():
         folders.grid(column=1, row=1, sticky=(N,W), padx=5, pady=5)
         process = ttk.Frame(frame)
         process.grid(column=1, row=2, sticky=(N,E), padx=5, pady=5)
-
+        log = ttk.Frame(frame)
+        log.grid(column=0, row=4, columnspan= 2,sticky=(N,E), padx=5, pady=5)
 
         ## title frame
         # --------------
@@ -215,6 +244,13 @@ class Gui():
         self.root.bind("<Return>", lambda *args: self.launch_extract())
 
 
+         # process frame
+        #---------------
+        self.log_widget = ScrolledText(log, height=10, width=120, font=("consolas", "8", "normal"))
+        self.log_widget.grid(column=0, row=0, sticky=(N,E))
+        self.redirect_logging()
+
+
         # set default values
         # ------------------
         for k, v in self.default.items():
@@ -229,7 +265,7 @@ class Gui():
 
 
 def launch_gui():
-    print("1")
+    
     gui = Gui()
 
 
