@@ -122,6 +122,7 @@ def process(input_params=None):
     print("Audio extract")
     print("-------------")
 
+    #print(input_params)
     
     if input_params != None: # input parameters are given probably from Gui
         params = {}
@@ -136,8 +137,11 @@ def process(input_params=None):
             # not file found
             params = {}
     
+    # print(params)
+
+
     # list of default parameters
-    default_params = {"input_dir": ".", "output_dir": "output", "first_second": 0, "last_second": 60, "input_file_extension" : ["wav","mp3"], "path_ffmpeg": "", "debug": True}  
+    default_params = {"input_dir": ".", "output_dir": "output", "first_second": 0, "last_second": 60, "input_file_extension" : ["wav","mp3"], "path_ffmpeg": "", "debug": True, "fade_d": 8}  
 
     # check quality of parameters
     for k,v in default_params.items():
@@ -148,7 +152,7 @@ def process(input_params=None):
 
     debug = params["debug"]
   
-
+    print(params)
 
 
     # read input files

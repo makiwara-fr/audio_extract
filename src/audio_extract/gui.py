@@ -53,7 +53,7 @@ class Gui():
     root: Tk
     output_folder: Path
     log_widget: ScrolledText
-    default = {"start":0, "end": 30, "fade":True, "fade_d": 5, "input": Path.cwd().relative_to(Path.cwd())}
+    default = {"start":0, "end": 30, "fade":True, "fade_d": 5, "input": Path.cwd().joinpath("input").relative_to(Path.cwd())}
 
     def __init__(self):
         print("launching_gui..")
@@ -82,9 +82,18 @@ class Gui():
             # ----------------------
             
             # convert what needs to be convert
-            params = {'start': self.root.getvar("start"), 'end': self.root.getvar("end") , 'input_dir' : Path(self.root.getvar("input")).absolute(), 'output_dir': self.output_folder.absolute()}
+            print("fade", self.root.getvar("fade"), bool(self.root.getvar("fade")))
+            if bool(int(self.root.getvar("fade"))):
+                print("here")
+                fade_d = int(self.root.getvar("fade_d"))
+            else:
+                fade_d = 0
+
+            params = {'first_second': int(self.root.getvar("start")), 'last_second': int(self.root.getvar("end")) , 'input_dir' : Path(self.root.getvar("input")).absolute(), 'output_dir': self.output_folder.absolute(), 'fade_d': fade_d}
             print(params)
+            
             # launch backend convertion
+            # -------------------------
             main.process(input_params = params)
             
 
@@ -136,16 +145,18 @@ class Gui():
         self.root.setvar("output", value=self.output_folder)
 
 
-    def switch_control(self, target_widget, debug=True):
+    def switch_control(self, target_widget: ttk.Widget, debug=True):
         """switch on or off the target widget """ 
 
         if debug:
             print(f"(de)activating {target_widget}")
-            # print(target_widget['state'])
+            print(target_widget['state']) # don't remove ! Only way to work ?
+
         if target_widget['state'] != "disabled":
             target_widget.config(state = "disabled")
         else:
-            target_widget.config(state = "enabled")
+            target_widget.config(state = "normal")
+            
         target_widget.update()
 
 
@@ -211,7 +222,7 @@ class Gui():
         fade = ttk.Checkbutton(options, variable=fade_var)
         
         fade.grid(column=1, row=3, sticky=(W))
-        fade_duration_var = StringVar(self.root, name="fade_d")
+        fade_duration_var = IntVar(self.root, name="fade_d")
         fade_duration = ttk.Entry(options, textvariable=fade_duration_var)
         fade_duration.grid(column=2, row=3)
         fade.bind("<1>", lambda *args: self.switch_control(fade_duration)) # deactivate fade duration when fade is False
