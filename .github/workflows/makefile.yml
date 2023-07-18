@@ -14,10 +14,10 @@ jobs:
 
     
     - name: Install dependencies
-      run: cd src/audio_extract && make install
+      run: make install
       
     - name: Test code
-      run: cd src/audio_extract && make test
+      run: make test
 
 
     
