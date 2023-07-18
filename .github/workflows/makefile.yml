@@ -12,14 +12,12 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Move to src
-      run: cd src/audio_extract
     
     - name: Install dependencies
-      run: make install
+      run: cd src/audio_extract && make install
       
     - name: Test code
-      run: make test
+      run: cd src/audio_extract && make test
 
 
     
