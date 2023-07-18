@@ -12,6 +12,9 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    - uses: move to src
+      run: cd src/audio_extract
+    
     - name: Install dependencies
       run: make install
       
