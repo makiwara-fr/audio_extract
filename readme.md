@@ -1,3 +1,5 @@
+[![Testing commit](https://github.com/makiwara-fr/audio_extract/actions/workflows/makefile.yml/badge.svg?branch=main)](https://github.com/makiwara-fr/audio_extract/actions/workflows/makefile.yml)
+
 # Audio extract 
 
 Batch extract part of multiple audio files
