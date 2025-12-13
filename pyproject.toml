@@ -16,7 +16,7 @@ authors = [
   { name="makiwara-fr", email="" },
 ]
 description = "A mass treatment script for extracting part of audio files using FFMPEG"
-readme = "README.md"
+readme = "readme.md"
 requires-python = ">=3.7"
 classifiers = [
     "Programming Language :: Python :: 3",
@@ -24,7 +24,7 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
-  "pyyaml"
+  "pyyaml",
 ]
 
 [project.scripts]
@@ -34,3 +34,8 @@ audio_extract = "audio_extract.main:process"
 [project.urls]
 "Homepage" = ""
 "Bug Tracker" = ""
+
+[dependency-groups]
+dev = [
+    "black>=23.3.0",
+]
