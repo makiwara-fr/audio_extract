@@ -2,6 +2,11 @@
 
 Batch extract part of multiple audio files
 
+
+## Build
+
+See [build.md](build.md)
+
 ## installation 
 
 ### prerequisites

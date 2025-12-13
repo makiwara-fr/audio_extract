@@ -19,10 +19,14 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install build
+        pip install build pyinstaller
+        pip install .
         
     - name: Build package
       run: python -m build
+      
+    - name: Build GUI
+      run: pyinstaller --noconsole --onefile --name audio_extract_gui src/audio_extract/gui.py
       
     - name: Upload binaries to release
       uses: svenstaro/upload-release-action@v2
