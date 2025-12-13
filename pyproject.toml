@@ -11,7 +11,7 @@ exclude = [
 
 [project]
 name = "batch_audio_extract"
-version = "0.5.1"
+version = "0.5.3"
 authors = [
   { name="makiwara-fr", email="makiwara@makiwara.com" },
 ]
