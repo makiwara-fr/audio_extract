@@ -52,39 +52,48 @@ see more with
 
 
 
-### Parameters
+### Parameters for *parameters.yaml*
 
-#### input_dir
 
-It should contain files you wish to extract audio excerpt from.
+| Parameter              | Description                                                                                              | Default Value        |
+| ---------------------- | -------------------------------------------------------------------------------------------------------- | -------------------- |
+| `input_dir`            | The directory containing the audio files you want to process.                                            | Current directory    |
+| `output_dir`           | The directory where the extracted audio clips will be saved. The output format is `original_filename_extract.mp3`. | `./output/`          |
+| `first_second`         | The start time (in seconds) for the audio extraction.                                                    | `0`                  |
+| `last_second`          | The end time (in seconds) for the audio extraction.                                                      | `60`                 |
+| `input_file_extension` | A list of file extensions to be considered for processing.                                               | `[mp3, wav]`         |
+| `path_ffmpeg` (optional) | The path to the FFMPEG `bin` directory if it's not in your system's PATH.                                | Not set              |
+| `debug` (optional)     | Enables debug mode for more verbose output.                                                              | `False`              |
 
-default is: current working directory.
+### Parameters for CLI
 
-#### output_dir
+All parameters from the `parameters.yaml` file can be overridden via command-line arguments.
 
-It will contain all extractions. New file will be mp3 format with format **original_file_name_extract.mp3**
+| Argument          | Description                                  | Corresponding `yaml` parameter |
+| ----------------- | -------------------------------------------- | ------------------------------ |
+| `-d`, `--debug`   | Enable debug mode.                           | `debug`                        |
+| `-i`, `--input`   | Input directory containing audio files.      | `input_dir`                    |
+| `-o`, `--output`  | Output directory for extracted audio files.  | `output_dir`                   |
+| `-s`, `--start`   | Starting second for the audio excerpt.       | `first_second`                 |
+| `-e`, `--end`     | Ending second for the audio excerpt.         | `last_second`                  |
+| `-f`, `--fade`    | Fade duration in seconds (0 for no fade).    | `fade_d`                       |
 
-default is: ./output/
+#### Examples
 
-#### first_second
+*   Extract the first 30 seconds of all audio files in the `my_audio` directory and save them to `my_extracts`:
 
-Indicate what is the first second of the stream you wish to extract
+    ```bash
+    audio_extract --input my_audio --output my_extracts --start 0 --end 30
+    ```
 
-default is: 0
+*   Extract audio from second 60 to 120 with a 3-second fade in/out:
 
-#### last_second
+    ```bash
+    audio_extract --start 60 --end 120 --fade 3
+    ```
 
-Indicate what is the last second of the stream you wish to extract
+*   Run in debug mode using a custom input directory:
 
-default is: 60
-
-#### input_file_extension: 
-A list of file extension you want to consider 
-
-default is: [mp3, wav]
-
-### path_ffmpeg [optional]
-directory where is located FFMPEG if not in PATH. Should end with ... ffmpeg/bin
-
-### debug [optional]
-enable debug. Default is False
+    ```bash
+    audio_extract --debug --input /path/to/your/audio
+    ```
