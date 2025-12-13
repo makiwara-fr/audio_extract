@@ -13,7 +13,7 @@ See [build.md](build.md)
 
 * ffmpeg installed
 * python installed
-* download and install the wheel file for CLI or gui-x.x.x. from here [https://github.com/makiwara-fr//extract_audio_exercept/releases/latest]
+* download and install the wheel file for CLI or gui-x.x.x. from here [https://github.com/makiwara-fr/extract_audio_exercept/releases/latest]
 
 ## How to - Graphical interface
 
