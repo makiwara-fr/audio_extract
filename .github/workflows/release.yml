@@ -60,7 +60,7 @@ jobs:
         pip install .
         
     - name: Build GUI
-      run: pyinstaller --noconsole --onefile --name audio_extract_gui src/audio_extract/gui.py
+      run: pyinstaller --noconsole --onefile --name audio_extract_gui src/batch_audio_extract/gui.py
       
     - name: Upload binaries to release
       uses: svenstaro/upload-release-action@v2
