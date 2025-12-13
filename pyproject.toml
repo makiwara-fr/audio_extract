@@ -39,4 +39,5 @@ audio_extract = "audio_extract.main:main"
 dev = [
     "black>=23.3.0",
     "pytest>=7.4.4",
+    "pytest-sugar>=1.0.0",
 ]
