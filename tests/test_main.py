@@ -1,5 +1,5 @@
-from src.audio_extract import main
-from src.audio_extract import process
+from src.batch_audio_extract import main
+from src.batch_audio_extract import process
 import pytest
 import re
 from pathlib import Path
