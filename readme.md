@@ -1,7 +1,9 @@
 # Audio extract 
 
 Batch extract part of multiple audio files
-
+It's a wrapper around FFMPEG.
+Give these guys a thumbs up !
+[https://www.ffmpeg.org/](https://www.ffmpeg.org/)
 
 ## Build
 
