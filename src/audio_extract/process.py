@@ -25,6 +25,9 @@ def set_regexp(suffix_list):
 def scan_folder(wd: Path, regexp):
     """scan folder for files mathcing regexp"""
 
+    if type(wd) == str:
+        wd = Path(wd)
+
     if not wd.exists():
         print(wd, "doesn't exist")
         return []
@@ -35,8 +38,7 @@ def scan_folder(wd: Path, regexp):
     # Scanning folder
     print(f"Scanning folder : {wd}")
 
-    if type(wd) == str:
-        wd = Path(wd)
+    
 
     # if wd == ".":
     #     wd = os.getcwd()
@@ -226,3 +228,5 @@ def process(input_params=None):
         for ef in error_files:
             print("-", ef.name)
     print("")
+
+    return 0
