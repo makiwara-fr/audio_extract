@@ -1,32 +1,65 @@
+# ==============================================================================
+# General Python best practices
+# Sourced from GitHub's standard Python .gitignore
+# ==============================================================================
 
-Lib/
-Scripts/
-bin/
-src/audio_extract/__pycache__/
-src/audio_extract/Include/
-src/audio_extract/input/
-src/audio_extract/output/
-dist/
-build/
-
-.env/
-.venv/
-
+# Byte-code / cache files
+__pycache__/
 *.pyc
-*__pycache__*
+*.pyo
+*.pyd
+.mypy_cache/
+.pytype/
+
+# Virtual Environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Build, distribution, and packaging
+build/
+dist/
+sdist/
+wheels/
+*.egg-info/
+.eggs/
+eggs/
+develop-eggs/
+
+# Testing
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+nosetests.xml
+coverage.xml
+
+# OS-specific and editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Logs
+*.log
 
 
-src/audio_extract/input/*
-src/audio_extract/output/*
+# ==============================================================================
+# Project-specific ignores for audio_extract
+# ==============================================================================
 
+# Ignore input and output directories at the root
+/input/
+/output/
 
+# Ignore generated media files, as they are outputs
 *.mp3
 *.wav
+
+# But DO NOT ignore the specific test file needed for tests
 !tests/input_test/test.mp3
 
-pyvenv.cfg
-
-# for tests
-tests/output_test/*
+# Ignore test output files
 tests/output_test/
-.pytest*
