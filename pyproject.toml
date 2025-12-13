@@ -13,7 +13,7 @@ exclude = [
 name = "batch_audio_extract"
 version = "0.5.1"
 authors = [
-  { name="makiwara-fr", email="" },
+  { name="makiwara-fr", email="makiwara@makiwara.com" },
 ]
 description = "A mass treatment script for extracting part of audio files using FFMPEG"
 readme = "readme.md"
@@ -32,8 +32,8 @@ audio_extract = "batch_audio_extract.main:main"
 
 
 [project.urls]
-"Homepage" = ""
-"Bug Tracker" = ""
+"Homepage" = "https://github.com/makiwara-fr/audio_extract"
+"Bug Tracker" = "https://github.com/makiwara-fr/audio_extract/issues"
 
 [dependency-groups]
 dev = [
