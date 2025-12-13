@@ -3,7 +3,6 @@ def message():
     print("")
     print("")
     print("")
-
     print(
         "\n".join(
             (
