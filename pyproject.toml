@@ -38,4 +38,5 @@ audio_extract = "audio_extract.main:main"
 [dependency-groups]
 dev = [
     "black>=23.3.0",
+    "pytest>=7.4.4",
 ]

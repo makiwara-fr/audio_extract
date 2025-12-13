@@ -57,10 +57,15 @@ def scan_folder(wd: Path, regexp):
 
 def extract(file: Path, output_dir: Path, beg: int, end: int, ffmpeg_path: Path):
     """extract except from given file and put results in output dir taking audio only for beg to end"""
-    infile = Path.cwd().joinpath(file)
-    print(f"Processing {infile}")
+    
+    
+    # infile = Path.cwd().joinpath(file)
+    print(f"Processing {file}")
     print()
-    outfile = Path.cwd().joinpath(output_dir, file.stem + "_extract.mp3")
+    # outfile = Path.cwd().joinpath(output_dir, file.stem + "_extract.mp3")
+    outfile = output_dir.joinpath(file.stem + "_extract.mp3")
+
+    infile = file
 
     try:
         # reencode if not MP3 file
@@ -130,7 +135,7 @@ def process(input_params=None):
         "last_second": 60,
         "input_file_extension": ["wav", "mp3"],
         "path_ffmpeg": "",
-        "debug": True,
+        "debug": False,
         "fade_d": 8,
     }
 
