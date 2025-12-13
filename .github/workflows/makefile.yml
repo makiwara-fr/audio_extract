@@ -23,10 +23,13 @@ jobs:
       run: sudo apt install ffmpeg -y
     
     - name: Install dependencies
-      run: make install
+      run: |
+        pip install --upgrade pip
+        pip install uv
+        uv pip install .[dev]
       
     - name: Test code
-      run: make test
+      run: uv run pytest
 
 
     

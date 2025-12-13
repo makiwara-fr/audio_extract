@@ -17,3 +17,6 @@ build/
 
 pyvenv.cfg
 
+# for tests
+tests/output_test/*
+tests/output_test/
