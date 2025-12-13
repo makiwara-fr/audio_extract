@@ -27,6 +27,10 @@ See [build.md](docs/build.md)
 
 ## How to - CLI 
 
+### installation
+
+```pip install batch-audio-extract```
+
 After installing, the wheel.
 
 In any working directory, create a file *parameters.yaml* (see example below). If undefined, default parameters will apply.
