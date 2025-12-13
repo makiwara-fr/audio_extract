@@ -7,7 +7,7 @@ Give these guys a thumbs up !
 
 ## Build
 
-See [build.md](build.md)
+See [build.md](docs/build.md)
 
 ## installation 
 
