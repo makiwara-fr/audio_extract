@@ -17,9 +17,9 @@ See [build.md](build.md)
 
 ## How to - Graphical interface
 
-* Download gui-x.x.x.zip from here [https://github.com/makiwara-fr/extract_audio_exercept/releases/latest]
-* Extract where ever you want
-* click on audio_extract.exe
+* Download `audio_extract.exe` from here [https://github.com/makiwara-fr/extract_audio_exercept/releases/latest]
+* Put it where ever you want
+* click on the file to launch it
 
 ## How to - CLI 
 
@@ -40,6 +40,10 @@ Then launch command in a terminal, in the directory of the *parameters.yaml* fil
 ```
 audio_extract
 ```
+
+see more with
+
+        audio_extract --help
 
 
 
@@ -79,4 +83,4 @@ default is: [mp3, wav]
 directory where is located FFMPEG if not in PATH. Should end with ... ffmpeg/bin
 
 ### debug [optional]
-enable debug. Default is true
+enable debug. Default is False
