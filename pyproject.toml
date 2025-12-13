@@ -28,7 +28,7 @@ dependencies = [
 ]
 
 [project.scripts]
-audio_extract = "audio_extract.main:process"
+audio_extract = "audio_extract.main:main"
 
 
 [project.urls]

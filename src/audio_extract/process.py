@@ -24,6 +24,12 @@ def set_regexp(suffix_list):
 
 def scan_folder(wd: Path, regexp):
     """scan folder for files mathcing regexp"""
+
+    if not wd.exists():
+        print(wd, "doesn't exist")
+        return []
+
+
     files_list = []
 
     # Scanning folder
@@ -49,7 +55,7 @@ def scan_folder(wd: Path, regexp):
     return files_list
 
 
-def extract(file, output_dir, beg, end, ffmpeg_path):
+def extract(file: Path, output_dir: Path, beg: int, end: int, ffmpeg_path: Path):
     """extract except from given file and put results in output dir taking audio only for beg to end"""
     infile = Path.cwd().joinpath(file)
     print(f"Processing {infile}")

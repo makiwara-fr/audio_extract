@@ -82,10 +82,9 @@ def main():
     if args.fade is not None:
         input_params["fade_d"] = args.fade
 
-    if input_params:
-        process(input_params=input_params)
-    else:
-        process()
+    
+    process(input_params=input_params)
+  
 
 
 
