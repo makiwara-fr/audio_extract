@@ -5,6 +5,10 @@ from pathlib import Path
 import yaml
 from yaml.loader import SafeLoader
 
+from audio_extract.welcome import message
+from audio_extract.ffmpeg import get_ffmpeg_path
+
+
 
 def set_regexp(suffix_list):
     """set the regex to look for audio files"""
@@ -57,8 +61,13 @@ def scan_folder(wd: Path, regexp):
     return files_list
 
 
-def extract(file: Path, output_dir: Path, beg: int, end: int, ffmpeg_path: Path):
-    """extract except from given file and put results in output dir taking audio only for beg to end"""
+def extract(file: Path, output_dir: Path, beg: int, end: int, ffmpeg_path: Path)->int:
+    """extract except from given file and put results in output dir taking audio only for beg to end
+    
+        returns:
+            - status of FFMpeg extraction
+            - 1 if error
+    """
     
     
     # infile = Path.cwd().joinpath(file)
@@ -89,28 +98,9 @@ def extract(file: Path, output_dir: Path, beg: int, end: int, ffmpeg_path: Path)
 
 
 def process(input_params=None):
+    
     # Welcome messages
-    print("")
-    print("")
-    print("")
-    print(
-        "".join(
-            (
-                "                 __   .__                              \n",
-                "   _____ _____  |  | _|__|_  _  _______ ____________   \n",
-                "  /     \\\\__  \ |  |/ /  \ \/ \/ /\__  \\\\_  __ \\__  \\  \n",
-                " |  Y Y  \/ __ \|    <|  |\     /  / __ \|  | \// __ \_\n",
-                " |__|_|  (____  /__|_ \__| \/\_/  (____  /__|  (____  /\n",
-                "      \/     \/     \/                \/           \/ \n",
-            )
-        )
-    )
-    print("")
-    print("")
-    print("")
-    print("-------------")
-    print("Audio extract")
-    print("-------------")
+    message()
 
     # print(input_params)
 
@@ -193,14 +183,8 @@ def process(input_params=None):
 
     # path to FFMPEG
     # --------------
-    if len(params["path_ffmpeg"]) > 0:
-        ffmpeg_path = Path(params["path"]).joinpath("ffmpeg")
-    else:
-        ffmpeg_path = "ffmpeg"
 
-    if debug:
-        print(f"Path to ffmpeg is : {ffmpeg_path}")
-        print()
+    ffmpeg_path = get_ffmpeg_path(params["path_ffmpeg"], debug=debug)
 
     # real processing of files
     # -------------------------
