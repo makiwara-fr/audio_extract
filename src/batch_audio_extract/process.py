@@ -6,7 +6,7 @@ import yaml
 from yaml.loader import SafeLoader
 
 from batch_audio_extract.welcome import message
-from batch_audio_extract.ffmpeg import get_ffmpeg_path
+from batch_audio_extract.ffmpeg import get_ffmpeg_path, check_ffmpeg
 
 
 
@@ -156,7 +156,8 @@ def process(input_params=None):
             print(f"found {len(files_list)} files")
             print()
         else:
-            print("exiting no file has been found")
+            print()
+            print("Exiting: no file has been found")
             print("")
             sys.exit(0)
 
@@ -185,6 +186,10 @@ def process(input_params=None):
     # --------------
 
     ffmpeg_path = get_ffmpeg_path(params["path_ffmpeg"], debug=debug)
+
+    if not check_ffmpeg(ffmpeg_path):
+        print("Could not find FFMPEG. Please install it or review PATH configuration")
+        return 1
 
     # real processing of files
     # -------------------------
